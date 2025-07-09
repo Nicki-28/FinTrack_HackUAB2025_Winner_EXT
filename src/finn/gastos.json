@@ -1,0 +1,5 @@
+[
+    {"Título": "TacoBell", "Categoría": "Comida", "Monto": 300},
+    {"Título": "Uber", "Categoría": "Transporte", "Monto": 150},
+    {"Título": "Cine", "Categoría": "Entretenimiento", "Monto": 200}
+]
