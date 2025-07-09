@@ -1,4 +1,4 @@
-#QUERY
+
 import requests
 import json
 from config import API_KEY
@@ -49,20 +49,11 @@ def obtener_respuesta(query_str):
         else:
             print("Error al llamar a la API:", response.status_code)
             print(response.json())
-
+            return "Lo siento, ha habido un error en tu consulta."
     except requests.exceptions.RequestException as e:
         print("Ha ocurrido un error, por el momento no puedo ayudarte. Inténtalo más tarde", e)
     except Exception as e:
         print("Por el momento no tengo consejos financieros para ti", e)
-
-    # Solicitar la consulta al usuario
-    query_input = input("Ingresa tu consulta o escribe 'salir' para terminar: ")
-
-    # Crear el query a partir de la entrada del usuario
-    query_str = f"Consulta: {query_input}"
-
-    # Llamar a la función para obtener la respuesta del bot
-    obtener_respuesta(query_str)
 
 
 @app.route('/api/chat', methods=['POST'])
