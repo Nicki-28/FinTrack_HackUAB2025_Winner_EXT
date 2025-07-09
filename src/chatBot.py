@@ -35,8 +35,8 @@ def obtener_respuesta(query_str):
         response = requests.post(url, json=data, headers=headers)
 
        
-        print(f"Código de respuesta: {response.status_code}")
-        print("Contenido de la respuesta:", response.text)  
+        #print(f"Código de respuesta: {response.status_code}")
+        #print("Contenido de la respuesta:", response.text)  
 
         if response.status_code == 200:
             result = response.json()
