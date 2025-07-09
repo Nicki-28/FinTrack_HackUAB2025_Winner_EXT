@@ -85,9 +85,15 @@
     function sendMessage() {
       const input = document.getElementById("input");
       const text = input.value.trim();
-      
+
         // Validar que el mensaje no esté vacío
       if (text === "") return;
+       // Verificar si el usuario ha escrito "salir"
+       if (text.toLowerCase() === "salir") {
+        addMessage("Gracias por usar el chatbot. ¡Hasta luego!", "bot");
+        document.getElementById("input").disabled = true; // Deshabilitar el input
+        return;
+      }
       addMessage(text, "user");
 
       // Simula respuesta del chatbot
