@@ -2,7 +2,11 @@
 import requests
 import json
 from config import API_KEY
+from flask import Flask, request, jsonify
+from flask_cors import CORS
 
+app = Flask(__name__)
+CORS(app)
 
 url = "https://api.perplexity.ai/chat/completions" 
 
@@ -59,3 +63,18 @@ def obtener_respuesta(query_str):
 
     # Llamar a la función para obtener la respuesta del bot
     obtener_respuesta(query_str)
+
+
+@app.route('/api/chat', methods=['POST'])
+def chat():
+    data = request.get_json()
+    query_str = data.get('query', '')
+
+    if not query_str:
+        return jsonify({"error": "Consulta no proporcionada"}), 400
+
+    obtener_respuesta(query_str)
+    return jsonify({"message": "Consulta procesada"}), 200
+
+if __name__ == '__main__':
+    app.run(debug=True)
