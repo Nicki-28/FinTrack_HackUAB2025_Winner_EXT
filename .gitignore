@@ -1,0 +1,10 @@
+# Ignorar archivos con claves
+config.py
+.env
+
+# Carpetas y archivos comunes de Python
+__pycache__/
+*.pyc
+
+# Archivos CSV o temporales
+*.csv
