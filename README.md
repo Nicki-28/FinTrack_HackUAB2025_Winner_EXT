@@ -1,7 +1,8 @@
 # FinTrack_Winner_EXT 💸🤖  
 *A financial assistant powered by AI – HackUAB 2025 Winner Edition*
-This in an extention of that project, with improvements and a more complete backend implementation
+
 ---
+(This in an extention of that project, with improvements and a more complete backend implementation)
 
 ## 🌟 Overview
 
