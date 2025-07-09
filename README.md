@@ -1,2 +1,63 @@
-# FinTrack_HackUAB2025_Winner_EXT
-# FinTrack_HackUAB2025_Winner_EXT
+# FinTrack_Winner_EXT 💸🤖  
+*A financial assistant powered by AI – HackUAB 2025 Winner Edition*
+
+---
+
+## 🌟 Overview
+
+**FinTrack** was born from the need to help individuals – especially those with limited financial literacy – understand and manage their money in a safe and informed way.
+
+This project combines AI, automation, and financial education in a chatbot-powered tool that provides smart recommendations, tracks expenses, and verifies the safety of online shopping websites.
+
+---
+
+## 🔍 What It Does
+
+- 📊 **Tracks expenses and income** via a simple backend system
+- 🤖 **Analyzes user financial behavior** using Perplexity AI
+- 🌍 **Gives country-aware saving tips** based on user origin
+- 🛡️ **Evaluates website trustworthiness** via Trustpilot (Selenium)
+- 🧾 **Visualizes available payment methods** by region *(planned)*
+- 🧠 **Delivers a chatbot experience** to assist users with financial questions
+
+---
+
+## 🛠️ How It Works
+
+The system is modular and divided into:
+
+### 🎨 Design  
+- UX/UI mockups created with **Figma**  
+- Friendly financial assistant mascot: **Fin**
+
+### 🤖 AI Chatbot  
+- Uses **Perplexity API** to generate real-time financial advice  
+- Incorporates user origin data (e.g., country) for contextual responses  
+- Structured prompts simulate a smart and warm assistant
+
+### 🔐 Website Reputation Checker  
+- Built with **Selenium + Trustpilot** to assess if a website is secure or risky for online purchases
+
+## 🧠 What I Learned
+
+- Integrating AI into real use cases like financial advice
+- Structuring a backend app under pressure during a Hackathon
+- Handling APIs, scraping with Selenium, and separating code cleanly
+- Never giving up when tools fail – always look for alternative solutions
+
+
+## 🛠️ Built With
+
+- 🐍 Python / FastAPI / Flask
+- 🧠 Perplexity AI
+- 🌐 Selenium + Trustpilot
+- 💾 PostgreSQL
+- 🖌️ Figma (Design)
+- ⚙️ VS Code / GitHub / Notion
+
+## Disclaimer 
+- All backend, AI logic, API integration, and post-hackathon improvements have been implemented by Nicole Barreto as part of her individual learning journey and portfolio.
+- Some visual elements (such as mascot sketches or UI mockups) were initially created by the design team during the event. Minor visuals may still appear here for illustrative purposes.
+- The frontend components are **not included** in this version.
+
+If any original team member wishes to contribute or co-maintain this project, feel free to reach out.
