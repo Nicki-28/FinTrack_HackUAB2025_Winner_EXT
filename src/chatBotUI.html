@@ -1,0 +1,110 @@
+# Codigo generado por IA, no se debe usar en produccion
+# Este código es una implementación simple de HTML y JavaScript de una interfaz de chatbot.
+# Permite a los usuarios enviar mensajes y recibir respuestas simuladas de un chatbot.
+# ESTA NO ES LA VERSION FINAL, ES UN PROTOTIPO PARA PROPÓSITOS DE PRUEBA
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Chatbot UI</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f2f5;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+    .chat-container {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .bubble {
+      max-width: 70%;
+      padding: 10px 15px;
+      border-radius: 18px;
+      line-height: 1.4;
+      font-size: 14px;
+      white-space: pre-wrap;
+    }
+    .user {
+      align-self: flex-end;
+      background-color: #d1f1ff;
+    }
+    .bot {
+      align-self: flex-start;
+      background-color: #ffffff;
+      border: 1px solid #ccc;
+    }
+    .input-container {
+      display: flex;
+      border-top: 1px solid #ccc;
+      padding: 10px;
+      background-color: white;
+    }
+    input {
+      flex: 1;
+      padding: 10px;
+      font-size: 14px;
+    }
+    button {
+      margin-left: 10px;
+      padding: 10px 15px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      font-size: 14px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container" id="chat"></div>
+
+  <div class="input-container">
+    <input type="text" id="input" placeholder="Escribe algo..." />
+    <button onclick="sendMessage()">Enviar</button>
+  </div>
+
+  <script>
+    function addMessage(text, className) {
+      const bubble = document.createElement("div");
+      bubble.className = `bubble ${className}`;
+      bubble.textContent = text;
+      document.getElementById("chat").appendChild(bubble);
+      document.getElementById("chat").scrollTop = document.getElementById("chat").scrollHeight;
+    }
+
+    function sendMessage() {
+      const input = document.getElementById("input");
+      const text = input.value.trim();
+      
+        // Validar que el mensaje no esté vacío
+      if (text === "") return;
+      addMessage(text, "user");
+
+      // Simula respuesta del chatbot
+      fetch('http://127.0.0.1:5000/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: text })
+        })
+        .then(res => res.json())
+        .then(data => addMessage(data.reply, "bot"))
+        .catch(err => {
+        console.error(err);
+        addMessage("Error al conectar con el servidor.", "bot");
+        });
+
+      input.value = "";
+    }
+  </script>
+</body>
+</html>

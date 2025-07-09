@@ -51,15 +51,8 @@ def obtener_respuesta(query_str):
     except Exception as e:
         print("Por el momento no tengo consejos financieros para ti", e)
 
-# Interacción continua con el usuario
-while True:
     # Solicitar la consulta al usuario
     query_input = input("Ingresa tu consulta o escribe 'salir' para terminar: ")
-
-    # Salir del programa si el usuario escribe 'salir'
-    if query_input.lower() == 'salir':
-        print("Gracias por usar el asistente financiero. ¡Hasta luego!")
-        break
 
     # Crear el query a partir de la entrada del usuario
     query_str = f"Consulta: {query_input}"
