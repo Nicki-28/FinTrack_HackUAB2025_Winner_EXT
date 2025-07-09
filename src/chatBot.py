@@ -73,8 +73,8 @@ def chat():
     if not query_str:
         return jsonify({"error": "Consulta no proporcionada"}), 400
 
-    obtener_respuesta(query_str)
-    return jsonify({"message": "Consulta procesada"}), 200
+    respuesta = obtener_respuesta(query_str) 
+    return jsonify({"reply": respuesta})
 
 if __name__ == '__main__':
     app.run(debug=True)
