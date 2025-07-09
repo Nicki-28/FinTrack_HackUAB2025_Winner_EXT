@@ -2,7 +2,8 @@
 *A financial assistant powered by AI – HackUAB 2025 Winner Edition*
 
 ---
-(This in an extention of that project, with improvements and a more complete backend implementation)
+
+This is an extension of that project, with improvements and a more complete backend implementation. It was born from my desire to consolidate what I learned in recent courses on Docker and Generative AI, which inspired me to revisit and enhance the original code.
 
 ## 🌟 Overview
 
