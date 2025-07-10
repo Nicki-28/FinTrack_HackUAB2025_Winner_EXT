@@ -74,9 +74,9 @@ Make sure you have installed:
 
 ---
 ## Disclaimer 
-- All backend, AI logic, API integration, and post-hackathon improvements have been implemented by Nicole Barreto as part of her individual learning journey and portfolio.
+- All backend, AI logic, API integration, and post-hackathon improvements have been implemented by me as part of my individual learning journey and portfolio.
 - Some visual elements (such as mascot sketches or UI mockups) were initially created by the design team during the event. Minor visuals may still appear here for illustrative purposes.
-- The frontend components are **not included** in this version.
+- The frontend components showed in the hackathon are **not included** in this version. Nevertheless, minimal code is included just for visuals of the new improvements.
 
 If any original team member wishes to contribute or co-maintain this project, feel free to reach out.
 ---
