@@ -5,6 +5,7 @@ from config import API_KEY
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import re
+import base64
 
 
 app = Flask(__name__)
@@ -18,49 +19,58 @@ headers = {
 }
 
 
-def obtener_respuesta(query_str):
-    # Crear los mensajes para la solicitud
-    messages = [
-        {
-            "role": "system",
-            "content": "Eres un asistente financiero llamado Finn. Analiza los gastos y da consejos de ahorro."
-        },
-        {
-            "role": "user",
-            "content": f"Gastos del mes: {query_str}"
-        }
-    ]
+def obtener_respuesta(query_str, image_data_uri=None):
+    # Construir mensajes
+    if image_data_uri:
+        messages = [
+            {
+                "role": "system",
+                "content": "Eres un asistente financiero llamado Finn. Analiza los gastos y da consejos de ahorro."
+            },
+            {
+                "role": "user",
+                "content": [ 
+                    {"type": "text", "text": query_str},
+                    {"type": "image_url", "image_url": {"url": image_data_uri}}
+                ]
+            }
+        ]
+    else:
+        messages = [
+            {
+                "role": "system",
+                "content": "Eres un asistente financiero llamado Finn. Analiza los gastos y da consejos de ahorro."
+            },
+            {
+                "role": "user",
+                "content": query_str
+            }
+        ]
 
     data = {
-        "model": "sonar-pro", 
+        "model": "sonar-pro",
         "messages": messages
     }
 
     try:
-        # Hacer la solicitud a la API
         response = requests.post(url, json=data, headers=headers)
 
-       
-        #print(f"Código de respuesta: {response.status_code}")
-        #print("Contenido de la respuesta:", response.text)  
-        
         if response.status_code == 200:
             parcialResult = response.json()
-            #print("Análisis Financiero:")
-            #print(result['choices'][0]['message']['content']) 
-            parcialResult1 = parcialResult['choices'][0]['message']['content']  # Acceder al contenido de la respuesta
-            parcialResult2 = re.sub(r"(?<=\w)\d+\b", "", parcialResult1)# Eliminar números pegados a letras
-            result= re.sub(r"[\[\]\*]", "", parcialResult2) # Eliminar caracteres especiales: [, ], *
- 
+            parcialResult1 = parcialResult['choices'][0]['message']['content']
+            parcialResult2 = re.sub(r"(?<=\w)\d+\b", "", parcialResult1)
+            result = re.sub(r"[\[\]\*]", "", parcialResult2)
         else:
             print("Error al llamar a la API:", response.status_code)
             print(response.json())
             return "Lo siento, ha habido un error en tu consulta."
     except requests.exceptions.RequestException as e:
         print("Ha ocurrido un error, por el momento no puedo ayudarte. Inténtalo más tarde", e)
+        return "Error de conexión."
     except Exception as e:
         print("Por el momento no tengo consejos financieros para ti", e)
-    
+        return "Error inesperado."
+
     return result
 
 
@@ -74,6 +84,18 @@ def chat():
 
     respuesta = obtener_respuesta(query_str) #llamamos al bot
     return jsonify({"reply": respuesta})
+
+@app.route('/upload-image',methods=['POST'])
+def uploadImage():
+    data = request.get_json()
+    query_str = data.get('query', '') #obtenemos la peticioón
+    image_data_uri = data.get('image', '') #obtenemos la petición
+
+    if not image_data_uri:
+        return jsonify({"error": "Consulta no proporcionada"}), 400
+    
+    respuesta= obtener_respuesta(query_str,image_data_uri)
+    return jsonify ({"reply": respuesta})
 
 if __name__ == '__main__':
     app.run(debug=True)
