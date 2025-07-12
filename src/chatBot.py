@@ -22,6 +22,9 @@ headers = {
 def obtener_respuesta(query_str, image_data_uri=None):
     # Construir mensajes
     if image_data_uri:
+        print("tengo la imagen ya codificada")
+        print (image_data_uri)
+    if image_data_uri:
         messages = [
             {
                 "role": "system",
@@ -87,14 +90,16 @@ def chat():
 
 @app.route('/upload-image',methods=['POST'])
 def uploadImage():
+    print("estoy aqui")
     data = request.get_json()
     query_str = data.get('query', '') #obtenemos la peticioón
     image_data_uri = data.get('image', '') #obtenemos la petición
-
+    print (image_data_uri)
     if not image_data_uri:
         return jsonify({"error": "Consulta no proporcionada"}), 400
     
     respuesta= obtener_respuesta(query_str,image_data_uri)
+    print("recibi la respuesta de la imagen")
     return jsonify ({"reply": respuesta})
 
 if __name__ == '__main__':
