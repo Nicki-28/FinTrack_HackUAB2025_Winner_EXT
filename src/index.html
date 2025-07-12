@@ -87,6 +87,8 @@
   </div>
 
   <script>
+    let base64Image = ""; // variable global para la imagen
+
     function addMessage(text, className) {
       const bubble = document.createElement("div");
       bubble.className = `bubble ${className}`;
@@ -103,20 +105,21 @@
       const input = document.getElementById("input");
       const text = input.value.trim();
 
-      if (text === "") return;
+      if (!text && !base64Image) return; // no enviar si ambos están vacíos
 
-      if (text.toLowerCase() === "salir") {
-        addMessage("Gracias por usar el chatbot. ¡Hasta luego!", "bot");
-        input.disabled = true;
-        return;
-      }
+      addMessage(text || "[imagen enviada]", "user");
 
-      addMessage(text, "user");
+      const endpoint = base64Image ? "http://127.0.0.1:5000/upload-image" : "http://127.0.0.1:5000/chat"; // determinamos el endpoint adecuado
 
-      fetch('http://127.0.0.1:5000/chat', {
+      const payload = {
+        query: text,
+        ...(base64Image && { image: base64Image })
+      };
+
+      fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query: text })
+        body: JSON.stringify(payload)
       })
       .then(res => res.json())
       .then(data => addMessage(data.reply, "bot"))
@@ -126,38 +129,28 @@
       });
 
       input.value = "";
+      base64Image = "";
+      document.getElementById("preview").src = "";
+      document.getElementById("preview").style.display = "none";
+      document.getElementById("imageInput").value = "";
     }
 
     const imageInput = document.getElementById("imageInput");
     const preview = document.getElementById("preview");
 
     imageInput.addEventListener("change", function () {
-  const file = this.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = function (e) {
-      const base64Image = e.target.result;
-      preview.src = base64Image;
-      preview.style.display = "block";
-
-      fetch('http://127.0.0.1:5000/upload-image', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          query: "", 
-          image: base64Image 
-        })
-      })
-      .then(res => res.json())
-      .then(data => addMessage(data.reply, "bot"))
-      .catch(err => {
-        console.error(err);
-        addMessage("Error al enviar la imagen al servidor.", "bot");
-      });
-    }
-    reader.readAsDataURL(file);
-  }
-});
+      const file = this.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          base64Image = e.target.result;
+          console.log("Base64 image:", base64Image); // Para verificar en consola
+          preview.src = base64Image;
+          preview.style.display = "block";
+        };
+        reader.readAsDataURL(file);
+      }
+    });
   </script>
 </body>
 </html>
