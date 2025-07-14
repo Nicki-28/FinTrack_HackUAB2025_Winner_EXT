@@ -27,7 +27,7 @@ def obtener_respuesta(query_str, image_data_uri=None):
         messages = [
             {
                 "role": "system",
-                "content": "Eres un asistente financiero llamado Finn. Analiza los gastos y da consejos de ahorro."
+                "content": "Eres un asistente financiero llamado Finn. Analiza los gastos y da consejos de ahorro. No te presentes"
             },
             {
                 "role": "user",
@@ -59,9 +59,12 @@ def obtener_respuesta(query_str, image_data_uri=None):
 
         if response.status_code == 200:
             parcialResult = response.json()
-            parcialResult1 = parcialResult['choices'][0]['message']['content']
-            parcialResult2 = re.sub(r"(?<=\w)\d+\b", "", parcialResult1)
-            result = re.sub(r"[\[\]\*]", "", parcialResult2)
+            parcialResult1 = parcialResult['choices'][0]['message']['content'] #obtenemos respuesta
+            
+            #limpiamos la respuesta ( NO FUNCIONA =D)
+            parcialResult2= re.sub(r'([a-zA-Z])\d+(?=[\s.,;:]|$)', r'\1', parcialResult1) # "ahorrar2." -> "ahorrar."
+            parcialResult3 = re.sub(r'(?<=[\s.,;:])\d+([a-zA-Z])', r'\1', parcialResult2) # "123ahorrar" -> "ahorrar"
+            result = re.sub(r"[\[\]\*\#]", "-", parcialResult3) # Elimina [ ] *
         else:
             print("Error al llamar a la API:", response.status_code)
             print(response.json())
