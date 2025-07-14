@@ -125,7 +125,7 @@
         document.getElementById("chat").appendChild(bubble);
         document.getElementById("chat").scrollTop = document.getElementById("chat").scrollHeight;
       }
-      const endpoint = base64Image ? "http://127.0.0.1:5000/upload-image" : "http://127.0.0.1:5000/chat";
+      const endpoint = base64Image ? "http://0.0.0.0:5000/upload-image" : "http://0.0.0.0:5000/chat";
 
       const payload = {
         query: text,
