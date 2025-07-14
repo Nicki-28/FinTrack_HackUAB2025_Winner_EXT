@@ -87,8 +87,9 @@
   </div>
 
   <script>
-    let base64Image = ""; // variable global para la imagen
+    let base64Image = ""; // Variable global
 
+    // Función para agregar mensaje al chat
     function addMessage(text, className) {
       const bubble = document.createElement("div");
       bubble.className = `bubble ${className}`;
@@ -97,19 +98,34 @@
       document.getElementById("chat").scrollTop = document.getElementById("chat").scrollHeight;
     }
 
+    // Saludo inicial al cargar
     window.addEventListener('DOMContentLoaded', () => {
       addMessage("¡Hola! Soy tu asistente financiero Finn. ¿En qué puedo ayudarte hoy?", "bot");
     });
 
+    // Función para enviar mensaje o imagen
     function sendMessage() {
       const input = document.getElementById("input");
       const text = input.value.trim();
 
-      if (!text && !base64Image) return; // no enviar si ambos están vacíos
+      if (!text && !base64Image) return;
 
-      addMessage(text || "[imagen enviada]", "user");
+      if (text) addMessage(text, "user");
 
-      const endpoint = base64Image ? "http://127.0.0.1:5000/upload-image" : "http://127.0.0.1:5000/chat"; // determinamos el endpoint adecuado
+      if (base64Image) {
+        const bubble = document.createElement("div");
+        bubble.className = "bubble user";
+        const img = document.createElement("img");
+        img.src = base64Image;
+        img.alt = "Imagen enviada";
+        img.style.maxWidth = "150px";
+        img.style.borderRadius = "10px";
+        bubble.appendChild(img);
+        document.getElementById("chat").appendChild(bubble);
+        document.getElementById("chat").scrollTop = document.getElementById("chat").scrollHeight;
+      }
+
+      const endpoint = base64Image ? "http://127.0.0.1:5000/upload-image" : "http://127.0.0.1:5000/chat";
 
       const payload = {
         query: text,
@@ -121,12 +137,12 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       })
-      .then(res => res.json())
-      .then(data => addMessage(data.reply, "bot"))
-      .catch(err => {
-        console.error(err);
-        addMessage("Error al conectar con el servidor.", "bot");
-      });
+        .then(res => res.json())
+        .then(data => addMessage(data.reply, "bot"))
+        .catch(err => {
+          console.error(err);
+          addMessage("Error al conectar con el servidor.", "bot");
+        });
 
       input.value = "";
       base64Image = "";
@@ -135,6 +151,7 @@
       document.getElementById("imageInput").value = "";
     }
 
+    // Captura de imagen y codificación a base64
     const imageInput = document.getElementById("imageInput");
     const preview = document.getElementById("preview");
 
@@ -144,7 +161,6 @@
         const reader = new FileReader();
         reader.onload = function (e) {
           base64Image = e.target.result;
-          console.log("Base64 image:", base64Image); // Para verificar en consola
           preview.src = base64Image;
           preview.style.display = "block";
         };
